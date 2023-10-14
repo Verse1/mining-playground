@@ -32,7 +32,7 @@ public class CompliantMiner extends BaseMiner implements Miner {
             if (block.getHeight() > currentHead.getHeight()) {
                 this.currentHead = block;
             }
-        }
+     }
     }
 
 

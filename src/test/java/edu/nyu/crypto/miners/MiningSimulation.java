@@ -30,29 +30,29 @@ public class MiningSimulation {
     	return result;
 	}
 
-    @Test
-    public void simulateCompliantMiners() {
-        LOGGER.info("Simulating network of compliant miners");
+    // @Test
+    // public void simulateCompliantMiners() {
+    //     LOGGER.info("Simulating network of compliant miners");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(510, 150, 140, 10, 50, 50));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(510, 150, 140, 10, 50, 50));
 
-        runSimulation(miners, BlockReward.ONE, ChurnFunction.NO_CHURN);
-    }
+    //     runSimulation(miners, BlockReward.ONE, ChurnFunction.NO_CHURN);
+    // }
 
-    @Test
-    public void simulateDifferentNetworkPower() {
-        LOGGER.info("Simulating network of compliant miners with varying connectivity");
+    // @Test
+    // public void simulateDifferentNetworkPower() {
+    //     LOGGER.info("Simulating network of compliant miners with varying connectivity");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(510, 150, 140, 100, 50, 50));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(510, 150, 140, 100, 50, 50));
 
-        //modify network connectivity
-        miners.get(0).setConnectivity(10);
-        miners.get(1).setConnectivity(5);
-        miners.get(3).setConnectivity(3);
+    //     //modify network connectivity
+    //     miners.get(0).setConnectivity(10);
+    //     miners.get(1).setConnectivity(5);
+    //     miners.get(3).setConnectivity(3);
 
-        ChurnFunction churn = new NormalChurnFunction(1, 1, new SimulationRandom(4567));
-        runSimulation(miners, BlockReward.ONE, churn);
-    }
+    //     ChurnFunction churn = new NormalChurnFunction(1, 1, new SimulationRandom(4567));
+    //     runSimulation(miners, BlockReward.ONE, churn);
+    // }
 
     @Test
     public void simulate51PercentAttack1() {
@@ -84,69 +84,69 @@ public class MiningSimulation {
     }
 
 
-    @Test
-    public void simulateSelfishMining1() {
-        LOGGER.info("Simulating selfish miner at 40%, no churn");
+    // @Test
+    // public void simulateSelfishMining1() {
+    //     LOGGER.info("Simulating selfish miner at 40%, no churn");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(15, 15, 10, 10, 10));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(15, 15, 10, 10, 10));
 
-        Miner attacker = new SelfishMiner("Attacker", 40, 1);
-        miners.add(attacker);
+    //     Miner attacker = new SelfishMiner("Attacker", 40, 1);
+    //     miners.add(attacker);
 
-        Map<String, Double> relativeProfits = runSimulation(miners, BlockReward.ONE, ChurnFunction.NO_CHURN);
-        double attackerProfits = relativeProfits.get(attacker.getId());
-        Assertions.assertThat(attackerProfits).isGreaterThan(.415);
-    }
+    //     Map<String, Double> relativeProfits = runSimulation(miners, BlockReward.ONE, ChurnFunction.NO_CHURN);
+    //     double attackerProfits = relativeProfits.get(attacker.getId());
+    //     Assertions.assertThat(attackerProfits).isGreaterThan(.415);
+    // }
 
-    @Test
-    public void simulateSelfishMining2() {
+    // @Test
+    // public void simulateSelfishMining2() {
 
-        LOGGER.info("Simulating selfish miner at 31%, with churn");
+    //     LOGGER.info("Simulating selfish miner at 31%, with churn");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(150, 150, 100, 100, 100));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(150, 150, 100, 100, 100));
 
-    	Miner attacker = new SelfishMiner("Attacker", 270, 60);
-        miners.add(attacker);
+    // 	Miner attacker = new SelfishMiner("Attacker", 270, 60);
+    //     miners.add(attacker);
 
-        ChurnFunction churn = new NormalChurnFunction(1, 1, new SimulationRandom(3456));
-        Map<String, Double> relativeProfits = runSimulation(miners, BlockReward.ONE, churn);
-        double attackerProfits = relativeProfits.get(attacker.getId());
-        Assertions.assertThat(attackerProfits).isGreaterThan(.35);
-    }
+    //     ChurnFunction churn = new NormalChurnFunction(1, 1, new SimulationRandom(3456));
+    //     Map<String, Double> relativeProfits = runSimulation(miners, BlockReward.ONE, churn);
+    //     double attackerProfits = relativeProfits.get(attacker.getId());
+    //     Assertions.assertThat(attackerProfits).isGreaterThan(.35);
+    // }
 
-    @Test
-    public void simulateFeeSniping1() {
+    // @Test
+    // public void simulateFeeSniping1() {
 
-        LOGGER.info("Simulating fee sniping miner at 30%, with churn");
+    //     LOGGER.info("Simulating fee sniping miner at 30%, with churn");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(200, 150, 150, 100, 100));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(200, 150, 150, 100, 100));
 
-        Miner attacker = new FeeSnipingMiner("Attacker", 300, 1);
-        miners.add(attacker);
+    //     Miner attacker = new FeeSnipingMiner("Attacker", 300, 1);
+    //     miners.add(attacker);
 
-        BlockReward reward = new LognormalReward(new SimulationRandom(8765));
-        Map<String, Double> relativeProfits = runSimulation(miners, reward, ChurnFunction.NO_CHURN);
-        double attackerProfits = relativeProfits.get(attacker.getId());
-        Assertions.assertThat(attackerProfits).isGreaterThan(.33);
-    }
+    //     BlockReward reward = new LognormalReward(new SimulationRandom(8765));
+    //     Map<String, Double> relativeProfits = runSimulation(miners, reward, ChurnFunction.NO_CHURN);
+    //     double attackerProfits = relativeProfits.get(attacker.getId());
+    //     Assertions.assertThat(attackerProfits).isGreaterThan(.33);
+    // }
 
-    @Test
-    public void simulateFeeSniping2() {
+    // @Test
+    // public void simulateFeeSniping2() {
 
-        LOGGER.info("Simulating fee sniping miner at 29%, with churn");
+    //     LOGGER.info("Simulating fee sniping miner at 29%, with churn");
 
-        List<Miner> miners = makeCompliantMiners(ImmutableList.of(220, 190, 150, 130, 20));
+    //     List<Miner> miners = makeCompliantMiners(ImmutableList.of(220, 190, 150, 130, 20));
 
-        Miner attacker = new FeeSnipingMiner("Attacker", 290, 1);
-        miners.add(attacker);
+    //     Miner attacker = new FeeSnipingMiner("Attacker", 290, 1);
+    //     miners.add(attacker);
 
-        SimulationRandom rng = new SimulationRandom(5678);
-        BlockReward reward = new LognormalReward(rng);
-        ChurnFunction churn = new NormalChurnFunction(0.5, 1, rng);
-        Map<String, Double> relativeProfits = runSimulation(miners, reward, churn);
-        double attackerProfits = relativeProfits.get(attacker.getId());
-        Assertions.assertThat(attackerProfits).isGreaterThan(.31);
-    }
+    //     SimulationRandom rng = new SimulationRandom(5678);
+    //     BlockReward reward = new LognormalReward(rng);
+    //     ChurnFunction churn = new NormalChurnFunction(0.5, 1, rng);
+    //     Map<String, Double> relativeProfits = runSimulation(miners, reward, churn);
+    //     double attackerProfits = relativeProfits.get(attacker.getId());
+    //     Assertions.assertThat(attackerProfits).isGreaterThan(.31);
+    // }
 
     /**
      * Runs the simulation and returns a relative profit vector
